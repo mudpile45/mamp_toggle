@@ -25,6 +25,11 @@ sure you put your site there!)
 When you're done developing and want to be able to access the real website
 simply run the command again: `webdevtoggle.pl mydomain.com`
 
+# Command line options
+You can use -e and -d switches for enable and disable respectively if you want
+to ensure that an alias is in a certain state. Default behavior is to check the
+status of your config files and toggle.
+
 # How it works
 All it does is check if your hosts file has an entry for the domain you specify
 on the command line.
