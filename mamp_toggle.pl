@@ -93,7 +93,7 @@ sub hosts {
     local *hosts_remove = sub {
         my $hosts_data= shift(@_) ;
         my $line_number = 0;
-        my $domain_set = undef;
+        my $domain_rmvd = undef;
         my @output_hosts;
         foreach my $host (@$hosts_data) {
             $line_number++;
@@ -102,15 +102,14 @@ sub hosts {
                 next; }
             if ($host =~ m/$domain/) {
                 print "$domain entry found in hosts file at line $line_number... Removing" . "\n"; 
-                $domain_set = 1;
+                $domain_rmvd = 1;
             }
             else {
                 push (@output_hosts, $host);
-
             }
-            @$hosts_data = @output_hosts;
         }
-        return $domain_set;
+        @$hosts_data = @output_hosts;
+        return $domain_rmvd;
     };
 
     local *hosts_add = sub {
@@ -138,8 +137,9 @@ sub hosts {
 
 
     if (! $direction) {
-        if (! hosts_remove(\@hosts_data)) {
-            hosts_add(\@hosts_data);
+        # my @orig_hosts = @hosts_data;
+        if (! hosts_remove(\@hosts_data)) {   #nothing was removed...
+            hosts_add(\@hosts_data); #so add in new entries
         }
     }
     elsif ($direction == 1) {   #force enable of redirect
